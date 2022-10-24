@@ -48,6 +48,7 @@ class Config:
     test_num = 100  # validation 역할인듯: train.py에서 1 epoch 돌고 eval 하는 부분
     # model
     load_path = None
+    save_path = f'checkpoints/gastric_{epoch}_{batch_size}'
 
     caffe_pretrain = False # use caffe pretrained model instead of torchvision
     caffe_pretrain_path = 'checkpoints/vgg16_caffe.pth'

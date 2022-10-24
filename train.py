@@ -50,7 +50,7 @@ def eval(dataloader, faster_rcnn, test_num=10000):
 def train(**kwargs):
     opt._parse(kwargs)
     
-    dataset = Dataset(opt)
+    dataset = Dataset(opt, split='train')
     print('load data')
     dataloader = data_.DataLoader(dataset, \
                                   batch_size=opt.batch_size, \
@@ -58,7 +58,7 @@ def train(**kwargs):
                                   shuffle=True, \
                                   # pin_memory=True,
                                   )
-    testset = TestDataset(opt)
+    testset = TestDataset(opt, split='val')
     test_dataloader = data_.DataLoader(testset,
                                        batch_size=opt.batch_size,
                                        num_workers=opt.test_num_workers,

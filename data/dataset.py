@@ -99,7 +99,7 @@ class Transform(object):
 
 
 class Dataset:
-    def __init__(self, opt):
+    def __init__(self, opt, split='train'):
         self.opt = opt
         #self.db = VOCBboxDataset(opt.voc_data_dir)
         self.db = GastricBboxDataset(opt.gastric_data_dir)     # 수정
@@ -119,7 +119,7 @@ class Dataset:
 
 class TestDataset:
     #def __init__(self, opt, split='test', use_difficult=True):
-    def __init__(self, opt, split='test', use_difficult=False):
+    def __init__(self, opt, split='val', use_difficult=False):
         self.opt = opt
         #self.db = VOCBboxDataset(opt.voc_data_dir, split=split, use_difficult=use_difficult)
         self.db = GastricBboxDataset(opt.gastric_data_dir, split=split, use_difficult=use_difficult)        # 수정

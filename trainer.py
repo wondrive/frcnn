@@ -21,7 +21,6 @@ LossTuple = namedtuple('LossTuple',
                         'total_loss'
                         ])
 
-
 class FasterRCNNTrainer(nn.Module):
     """wrapper for conveniently training. return losses
 

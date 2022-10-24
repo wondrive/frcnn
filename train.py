@@ -14,12 +14,14 @@ from utils import array_tool as at
 from utils.vis_tool import visdom_bbox
 from utils.eval_tool import eval_detection_voc
 
+'''
+resource 설치해도 안돌아감 => Linux 환경에서만 작동되는 라이브러리
 # fix for ulimit
 # https://github.com/pytorch/pytorch/issues/973#issuecomment-346405667
 import resource
-
 rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
 resource.setrlimit(resource.RLIMIT_NOFILE, (20480, rlimit[1]))
+'''
 
 matplotlib.use('agg')
 
@@ -47,33 +49,44 @@ def eval(dataloader, faster_rcnn, test_num=10000):
 
 def train(**kwargs):
     opt._parse(kwargs)
-
+    
     dataset = Dataset(opt)
     print('load data')
     dataloader = data_.DataLoader(dataset, \
-                                  batch_size=1, \
+                                  batch_size=opt.batch_size, \
+                                  num_workers=opt.num_workers,
                                   shuffle=True, \
                                   # pin_memory=True,
-                                  num_workers=opt.num_workers)
+                                  )
     testset = TestDataset(opt)
     test_dataloader = data_.DataLoader(testset,
-                                       batch_size=1,
+                                       batch_size=opt.batch_size,
                                        num_workers=opt.test_num_workers,
                                        shuffle=False, \
                                        pin_memory=True
                                        )
+    
+    # model construct
     faster_rcnn = FasterRCNNVGG16()
     print('model construct completed')
+    
     trainer = FasterRCNNTrainer(faster_rcnn).cuda()
+    
+    # use pretrained weigths
     if opt.load_path:
         trainer.load(opt.load_path)
         print('load pretrained model from %s' % opt.load_path)
+        
     trainer.vis.text(dataset.db.label_names, win='labels')
     best_map = 0
     lr_ = opt.lr
+    
+    # 훈련 시작
     for epoch in range(opt.epoch):
+        print(f'========== Epoch : {epoch+1}/{opt.epoch+1} ==========')
+        
         trainer.reset_meters()
-        for ii, (img, bbox_, label_, scale) in tqdm(enumerate(dataloader)):
+        for ii, (img, bbox_, label_, scale) in tqdm(enumerate(dataloader)):         # mini batch 단위로 반복
             scale = at.scalar(scale)
             img, bbox, label = img.cuda().float(), bbox_.cuda(), label_.cuda()
             trainer.train_step(img, bbox, label, scale)

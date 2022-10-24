@@ -13,10 +13,12 @@ class VOCBboxDataset:
 
     The index corresponds to each image.
 
-    When queried by an index, if :obj:`return_difficult == False`,
+    When queried by an index,
+    if :obj:`return_difficult == False`,
     this dataset returns a corresponding
     :obj:`img, bbox, label`, a tuple of an image, bounding boxes and labels.
     This is the default behaviour.
+    
     If :obj:`return_difficult == True`, this dataset returns corresponding
     :obj:`img, bbox, label, difficult`. :obj:`difficult` is a boolean array
     that indicates whether bounding boxes are labeled as difficult or not.
@@ -62,7 +64,7 @@ class VOCBboxDataset:
 
     """
 
-    def __init__(self, data_dir, split='trainval',
+    def __init__(self, data_dir, split='val',
                  use_difficult=False, return_difficult=False,
                  ):
 

@@ -10,7 +10,7 @@ from matplotlib import pyplot as plot
 
 # from data.voc_dataset import VOC_BBOX_LABEL_NAMES
 
-
+GASTRIC_BBOX_LABEL_NAMES = ('cancer', 'ulcer')
 VOC_BBOX_LABEL_NAMES = (
     'fly',
     'bike',
@@ -88,7 +88,9 @@ def vis_bbox(img, bbox, label=None, score=None, ax=None):
 
     """
 
-    label_names = list(VOC_BBOX_LABEL_NAMES) + ['bg']
+    #label_names = list(VOC_BBOX_LABEL_NAMES) + ['bg']
+    label_names = list(GASTRIC_BBOX_LABEL_NAMES) + ['bg']    # 수정
+    
     # add for index `-1`
     if label is not None and not len(bbox) == len(label):
         raise ValueError('The length of label must be same as that of bbox')
@@ -149,6 +151,7 @@ def fig2data(fig):
     return buf.reshape(h, w, 4)
 
 
+# GT, pred 이미지 figure
 def fig4vis(fig):
     """
     convert figure to ndarray

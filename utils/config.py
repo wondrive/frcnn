@@ -7,11 +7,12 @@ from pprint import pprint
 
 class Config:
     # data
-    voc_data_dir = '/dataset/PASCAL2007/VOC2007/'
+    #voc_data_dir = 'C:/workspace/datasets/VOCdevkit/VOC2007/'
+    gastric_data_dir = 'C:/workspace/datasets/stomach_reprocessed/stomach_2000_cropped/' 
     min_size = 600  # image resize
     max_size = 1000 # image resize
-    num_workers = 8
-    test_num_workers = 8
+    num_workers = 0 #8
+    test_num_workers = 0 #8
 
     # sigma for l1_smooth_loss
     rpn_sigma = 3.
@@ -22,7 +23,8 @@ class Config:
     weight_decay = 0.0005
     lr_decay = 0.1  # 1e-3 -> 1e-4
     lr = 1e-3
-
+    
+    batch_size = 32
 
     # visualization
     env = 'faster-rcnn'  # visdom env
@@ -34,7 +36,7 @@ class Config:
     pretrained_model = 'vgg16'
 
     # training
-    epoch = 14
+    epoch = 30
 
 
     use_adam = False # Use Adam optimizer
@@ -43,7 +45,7 @@ class Config:
     # debug
     debug_file = '/tmp/debugf'
 
-    test_num = 10000
+    test_num = 100  # validation 역할인듯: train.py에서 1 epoch 돌고 eval 하는 부분
     # model
     load_path = None
 
